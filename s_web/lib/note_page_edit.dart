@@ -85,6 +85,7 @@ class _notes_editState extends State<notes_edit> {
                 [SizedBox(
                   height: 350, // set desired height here
                   child: TextFormField(
+                    cursorColor: Colors.teal[700],
                     controller: _content_controller,
                     style: TextStyle(
                         color: Colors.white,
