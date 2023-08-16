@@ -33,6 +33,8 @@ class _HomeState extends State<List_edit> {
   final _controller =TextEditingController();
   final _title_controller =TextEditingController();
   @override
+  List n_item=[];
+  List n_status=[];
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.blueGrey[900],
@@ -71,7 +73,7 @@ class _HomeState extends State<List_edit> {
                         color: Colors.grey,
                         fontSize: 18.0,
                         fontFamily: "NotoSans",
-                        letterSpacing: 2.3)),
+                        letterSpacing: 2.3),border:InputBorder.none),
               ),
             ),Container(decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(20))),child: ColoredBox(color: CupertinoColors.tertiarySystemFill,child: SizedBox(width: 360, height: 430,child: Container( margin: EdgeInsets.only(top: 5,bottom: 7.5),
               child: ScrollConfiguration(
@@ -80,8 +82,6 @@ class _HomeState extends State<List_edit> {
                   axisDirection: AxisDirection.down,
                   color: Colors.teal.shade900,
                   child: ListView.builder(itemCount: (widget.schedule.item.length+item.length),itemBuilder: (BuildContext context, int index) {
-                        List n_item=widget.schedule.item+item;
-                        List n_status=widget.schedule.status+status;
                         return Padding(
                           padding: const EdgeInsets.all(4.50),
                           child: Card(
@@ -94,11 +94,11 @@ class _HomeState extends State<List_edit> {
                               margin: EdgeInsets.only(top: 5.0),
                               padding:EdgeInsets.all(22.75),
                               child : Stack(
-                                children: [Container(margin: EdgeInsets.fromLTRB(10.0,10.0,40.0,0.0),child: Text(reduce(n_item[index]),style: TextStyle(fontFamily: "OpenSans", color: Colors.lightGreen[200],fontSize: 20,),)),Container(margin: EdgeInsets.only(left: 250.0),
+                                children: [Container(margin: EdgeInsets.fromLTRB(10.0,10.0,40.0,0.0),child: Text(reduce(widget.schedule.item[index]),style: TextStyle(fontFamily: "OpenSans", color: Colors.lightGreen[200],fontSize: 20,),)),Container(margin: EdgeInsets.only(left: 250.0),
                                   child: IconButton(onPressed: (){
                                     setState((){
-                                      item.remove(item[index]);
-                                      status.remove(status[index]);
+                                      widget.schedule.item.remove(widget.schedule.item[index]);
+                                      widget.schedule.status.remove(widget.schedule.status[index]);
                                     });
                                   } ,icon:Icon(Icons.close,color: Colors.grey[700],),),
                                 )],
@@ -117,8 +117,8 @@ class _HomeState extends State<List_edit> {
                 showDialog(context: context, builder: (context){
                   return Add_taskBox(item_addingController: _controller,onSave: (){
                     setState(() {
-                      item.add(_controller.text);
-                      status.add(false);
+                      widget.schedule.item.add(_controller.text);
+                      widget.schedule.status.add(false);
                     });
                     Navigator.of(context).pop();
                     _controller.clear();
@@ -137,10 +137,10 @@ class _HomeState extends State<List_edit> {
                         widget.schedule.status=widget.schedule.status+status;
                         to_do_list n_ob=to_do_list(title: widget.schedule.title, item: widget.schedule.item, status:widget.schedule.status);
                         var box = Hive.box("store");
-                        box.put(widget.index,n_ob);
+                        box.putAt(widget.index,n_ob);
                         _title_controller.clear();
                         Navigator.pop(context);
-                      }, icon: Icon(Icons.list_alt),label: Text("Add", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey[50]),), style: ButtonStyle(shadowColor: MaterialStateProperty.all(Colors.black87),elevation: MaterialStateProperty.all(5),backgroundColor: MaterialStateProperty.all(Colors.teal[700])),),
+                      }, icon: Icon(Icons.list_alt),label: Text("Edit", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey[50]),), style: ButtonStyle(shadowColor: MaterialStateProperty.all(Colors.black87),elevation: MaterialStateProperty.all(5),backgroundColor: MaterialStateProperty.all(Colors.teal[700])),),
                     )),SizedBox(height: 40.0, width: 120.0,
                     child: Directionality(
                       textDirection: TextDirection.rtl,
@@ -191,7 +191,7 @@ class Add_taskBox extends StatelessWidget {
                     color: Colors.grey,
                     fontSize: 14.0,
                     fontFamily: "NotoSans",
-                    letterSpacing: 2.3)),
+                    letterSpacing: 2.3),border: InputBorder.none),
           ),
           SizedBox(height: 8,),
           Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,children: [ElevatedButton(onPressed: (){

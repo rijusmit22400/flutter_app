@@ -55,6 +55,7 @@ class _notesState extends State<notes> {
                 cursorColor: Colors.teal[600],
                 controller: _title_controller,
                 decoration: InputDecoration(
+                    border: InputBorder.none,
                     hintText: "Title",
                     iconColor: Colors.white54,
                     icon: Icon(Icons.note_add),
@@ -82,7 +83,7 @@ class _notesState extends State<notes> {
                           fontFamily: "NotoSans",
                           letterSpacing: 1),
                       textAlignVertical: TextAlignVertical.top,
-                      decoration: InputDecoration(hintStyle: TextStyle(color:Colors.white54,fontFamily: "NotoSans",wordSpacing: 2.0),focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(20)),borderSide: BorderSide(color: Colors.tealAccent)),enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(20)),borderSide: BorderSide(color: Colors.teal)),hintText: "Your note Goes here.."),
+                      decoration: InputDecoration(border: InputBorder.none,hintStyle: TextStyle(color:Colors.white54,fontFamily: "NotoSans",wordSpacing: 2.0),focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(20)),borderSide: BorderSide(color: Colors.tealAccent)),enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(20)),borderSide: BorderSide(color: Colors.teal)),hintText: "Your note Goes here.."),
                       maxLines: null,
                       expands: true,
                       keyboardType: TextInputType.multiline,
