@@ -78,7 +78,7 @@ class _Home_appsState extends State<Home_apps> {
                         borderOnForeground: true,
                         child: TextButton(style: ButtonStyle(shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20.0)))),overlayColor: MaterialStateProperty.all(Colors.teal[100])),
                           onPressed: (){
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=> Note_Page(note_content: note,)));
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=> Note_Page(note_content: note,index: index,)));
                           },
                           child: Container(
                               margin: EdgeInsets.only(top: 5.0, bottom: 5),

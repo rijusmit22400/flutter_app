@@ -7,7 +7,8 @@ import 'package:s_web/imp_classes/note_class.dart';
 
 class Note_Page extends StatelessWidget {
   Note note_content;
-  Note_Page({super.key,required this.note_content});
+  int index;
+  Note_Page({super.key,required this.note_content,required this.index});
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +46,7 @@ class Note_Page extends StatelessWidget {
                 ),
               ),
             ),Container(margin: EdgeInsets.only(top: 25),alignment: Alignment(0.875,3),child: FloatingActionButton(backgroundColor: Colors.teal[900],onPressed: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context) => notes_edit(file: note_content)));
+              Navigator.push(context, MaterialPageRoute(builder: (context) => notes_edit(file: note_content,index: index,)));
             }, child: Icon(CupertinoIcons.pencil),))],
           ),
         ),

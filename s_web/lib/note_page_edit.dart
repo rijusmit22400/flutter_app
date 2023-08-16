@@ -7,7 +7,8 @@ import 'package:s_web/imp_classes/note_class.dart';
 
 class notes_edit extends StatefulWidget {
   Note file;
-  notes_edit({super.key,required this.file});
+  int index;
+  notes_edit({super.key,required this.file,required this.index});
   @override
   State<notes_edit> createState() => _notes_editState();
 }
@@ -17,6 +18,13 @@ class _notes_editState extends State<notes_edit> {
   var _title="";
   var _title_controller=TextEditingController();
   var _content_controller=TextEditingController();
+  @override
+  void initState() {
+    // TODO: implement initState
+    _title_controller=TextEditingController(text: widget.file.title);
+    _content_controller=TextEditingController(text: widget.file.content);
+    super.initState();
+  }
   var _enable_title=true;
   void title_dsplay(val){
     if(val.toString().length>=6){
@@ -99,7 +107,7 @@ class _notes_editState extends State<notes_edit> {
                           child: ElevatedButton.icon(onPressed: () async {
                             final note = Note(title: _title_controller.text,content: _content_controller.text);
                             var box = Hive.box("store");
-                            box.add(note);
+                            box.putAt(widget.index,note);
                             print([note.title,note.content]);
                             print("\n\n\n\n\n");
                             _content_controller.clear();
