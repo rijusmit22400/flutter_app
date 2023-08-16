@@ -70,7 +70,7 @@ class _HomeState extends State<Lists> {
           child: SingleChildScrollView(
             child: Column(children: [Padding(
               padding: EdgeInsets.fromLTRB(16.0, 32.0, 16.0, 0.0),
-              child: TextFormField(
+              child: TextFormField(maxLength: 30,
               style: TextStyle(
               color: Colors.white,
                   fontSize: 18.0,
@@ -79,9 +79,10 @@ class _HomeState extends State<Lists> {
               cursorColor: Colors.teal[600],
               controller: _title_controller,
               decoration: InputDecoration(
+                  border: InputBorder.none,
                   hintText: "Title",
                   iconColor: Colors.white54,
-                  icon: Icon(Icons.note_add),
+                  icon: Icon(Icons.playlist_add),
                   focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.tealAccent.shade700,width: 1.95)
                   ),

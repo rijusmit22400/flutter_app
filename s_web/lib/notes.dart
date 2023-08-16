@@ -42,6 +42,7 @@ class _notesState extends State<notes> {
             child: Padding(
               padding: EdgeInsets.fromLTRB(16.0, 32.0, 16.0, 0.0),
               child: Column(children: [TextFormField(
+                maxLength: 30,
                 style: TextStyle(
               color: Colors.white,
                   fontSize: 18.0,

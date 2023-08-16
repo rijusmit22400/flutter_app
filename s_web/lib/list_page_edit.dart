@@ -23,15 +23,21 @@ String reduce(String word) {
   return n_word;
 }
 class _HomeState extends State<List_edit> {
-  String title="";
+  String _title="";
   to_do_list schedule;
   int index;
   List item=[];
   List status=[];
   _HomeState({required this.schedule, required this.index});
   @override
-  final _controller =TextEditingController();
-  final _title_controller =TextEditingController();
+  var _controller =TextEditingController();
+  var _title_controller = TextEditingController();
+  @override
+  void initState() {
+    // TODO: implement initState
+    _title_controller = TextEditingController(text:schedule.title);
+    super.initState();
+  }
   @override
   List n_item=[];
   List n_status=[];
@@ -62,7 +68,7 @@ class _HomeState extends State<List_edit> {
                 decoration: InputDecoration(
                     hintText: "Title",
                     iconColor: Colors.white54,
-                    icon: Icon(Icons.note_add),
+                    icon: Icon(Icons.playlist_add),
                     focusedBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.tealAccent.shade700,width: 1.95)
                     ),
@@ -133,9 +139,7 @@ class _HomeState extends State<List_edit> {
                     child: Directionality(
                       textDirection: TextDirection.rtl,
                       child: ElevatedButton.icon(onPressed: () {
-                        widget.schedule.item=widget.schedule.item+item;
-                        widget.schedule.status=widget.schedule.status+status;
-                        to_do_list n_ob=to_do_list(title: widget.schedule.title, item: widget.schedule.item, status:widget.schedule.status);
+                        to_do_list n_ob=to_do_list(title: _title_controller.text, item: widget.schedule.item, status:widget.schedule.status);
                         var box = Hive.box("store");
                         box.putAt(widget.index,n_ob);
                         _title_controller.clear();
