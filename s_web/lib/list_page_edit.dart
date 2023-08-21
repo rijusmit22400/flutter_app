@@ -144,11 +144,9 @@ class _HomeState extends State<List_edit> {
                                             onPressed: () {
                                               setState(() {
                                                 widget.schedule.item.remove(
-                                                    widget
-                                                        .schedule.item[index]);
+                                                    widget.schedule.item[index]);
                                                 widget.schedule.status.remove(
-                                                    widget.schedule
-                                                        .status[index]);
+                                                    widget.schedule.status[index]);
                                               });
                                             },
                                             icon: Icon(
@@ -222,8 +220,7 @@ class _HomeState extends State<List_edit> {
                               var box = Hive.box("store");
                               box.putAt(widget.index, n_ob);
                               _title_controller.clear();
-                              int count=0;
-                              Navigator.popUntil(context,(route)=> count++ ==2);
+                              Navigator.pop(context,widget.schedule);
                             },
                             icon: Icon(Icons.list_alt),
                             label: Text(
@@ -249,7 +246,7 @@ class _HomeState extends State<List_edit> {
                             onPressed: () {
                               widget.schedule.item = widget.schedule.item;
                               widget.schedule.status = widget.schedule.status;
-                              Navigator.pop(context);
+                              Navigator.pop(context,widget.schedule);
                             },
                             icon: Icon(Icons.restore_from_trash),
                             label: Text(

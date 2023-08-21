@@ -28,6 +28,13 @@ class _HomeState extends State<List_Page> {
   var items;
   var index;
   _HomeState({this.items,this.index});
+  @override
+  late ValueNotifier<to_do_list> _keep;
+  void initState() {
+    // TODO: implement initState
+    _keep = ValueNotifier<to_do_list>(items);
+    super.initState();
+  }
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.blueGrey[900],
@@ -42,11 +49,12 @@ class _HomeState extends State<List_Page> {
           child: GlowingOverscrollIndicator(
             axisDirection: AxisDirection.down,
             color: Colors.teal.shade900,
-            child: ValueListenableBuilder(
-              valueListenable:  ValueNotifier(Hive.box("store").get(index)),
-              builder: (context, value, child) {
+            child: ValueListenableBuilder<to_do_list>(
+              valueListenable:  _keep,
+              builder: (context, value, _) {
+                print("Building the page..........");
                 return ListView.builder(
-                  itemCount: widget.items.status.length,
+                  itemCount: value.status.length,
                   itemBuilder: (BuildContext context, int index) {
                     return Padding(
                       padding: const EdgeInsets.all(8),
@@ -60,13 +68,14 @@ class _HomeState extends State<List_Page> {
                           margin: EdgeInsets.only(top: 5.0),
                           padding:EdgeInsets.all(22.75),
                           child : Stack(
-                            children: [Container(margin: EdgeInsets.fromLTRB(10.0,10.0,40.0,0.0),child: Text(reduce(widget.items.item[index]),style: TextStyle(fontFamily: "OpenSans", color: Colors.lightGreen[200],fontSize: 20,),)),Container(margin: EdgeInsets.only(left: 250.0),
+                            children: [Container(margin: EdgeInsets.fromLTRB(10.0,10.0,40.0,0.0),child: Text(reduce(value.item[index]),style: TextStyle(fontFamily: "OpenSans", color: Colors.lightGreen[200],fontSize: 20,),)),Container(margin: EdgeInsets.only(left: 250.0),
                               child: IconButton(onPressed: (){
+                                var killo = value;
                                 setState((){
-                                  bool value = widget.items.status[index];
-                                  widget.items.status[index] = (!value);
+                                  bool value = killo.status[index];
+                                  killo.status[index] = (!value);
                                 });
-                              } ,icon:widget.items.status[index]?Icon(Icons.check_box):Icon(Icons.check_box_outline_blank),color: Colors.lightGreen[200],),
+                              } ,icon:value.status[index]?Icon(Icons.check_box):Icon(Icons.check_box_outline_blank),color: Colors.lightGreen[200],),
                             )],
                           ),
                         ),
@@ -81,8 +90,17 @@ class _HomeState extends State<List_Page> {
       )
 
         ,),), padding: EdgeInsets.fromLTRB(25.0, 60.0, 10.0, 10.0),),
-    floatingActionButton: FloatingActionButton(onPressed: () {
-      Navigator.push(context,MaterialPageRoute(builder: (context)=>List_edit(schedule: widget.items,index: widget.index)));
+    floatingActionButton: FloatingActionButton( onPressed: () async {
+      final updatedItems = await Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => List_edit(schedule: widget.items, index: widget.index),
+        ),);
+      if (updatedItems != null) {
+        setState(() {
+          _keep.value = updatedItems;
+        });
+      }
     }, child: Icon(CupertinoIcons.pencil), backgroundColor: Colors.teal[900]),
     );
   }
