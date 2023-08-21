@@ -3,20 +3,34 @@ import 'package:flutter/material.dart';
 import 'package:s_web/note_page_edit.dart';
 import 'package:s_web/imp_classes/note_class.dart';
 
-class Note_Page extends StatelessWidget {
+class Note_Page extends StatefulWidget {
   Note note_content;
   int index;
   Note_Page({super.key, required this.note_content, required this.index});
 
   @override
+  State<Note_Page> createState() => _Note_PageState(content: note_content);
+}
+
+class _Note_PageState extends State<Note_Page> {
+  Note content;
+  _Note_PageState({required this.content});
+  late ValueNotifier<Note> _keep;
+  @override
+  void initState() {
+    // TODO: implement initState
+    _keep = ValueNotifier<Note>(content);
+    super.initState();
+  }
+  @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder(
-        valueListenable: Notechange(note_content),
-        builder: (context, Note, _) {
+        valueListenable: _keep,
+        builder: (context, value, _) {
           return Scaffold(
             backgroundColor: Colors.blueGrey[900],
             appBar: AppBar(
-                title: Text(note_content.title,
+                title: Text(value.title,
                     style: TextStyle(
                         color: Colors.grey[300], letterSpacing: 2.75)),
                 elevation: 0.0,
@@ -38,7 +52,7 @@ class Note_Page extends StatelessWidget {
                           elevation: 2.5,
                           shape: RoundedRectangleBorder(
                               borderRadius:
-                                  BorderRadius.all(Radius.circular(15.0)),
+                              BorderRadius.all(Radius.circular(15.0)),
                               side: BorderSide(
                                   width: 0.98, color: Colors.grey.shade700)),
                           color: CupertinoColors.systemGrey5.darkColor,
@@ -54,12 +68,12 @@ class Note_Page extends StatelessWidget {
                                 behavior: NoGlowScrollBehavior(),
                                 child: SingleChildScrollView(
                                     child: Text(
-                                  note_content.content,
-                                  style: TextStyle(
-                                      fontFamily: "NotoSans",
-                                      color: Colors.white,
-                                      fontSize: 17),
-                                )),
+                                      value.content,
+                                      style: TextStyle(
+                                          fontFamily: "NotoSans",
+                                          color: Colors.white,
+                                          fontSize: 17),
+                                    )),
                               ),
                             ),
                           ),
@@ -71,14 +85,19 @@ class Note_Page extends StatelessWidget {
                         alignment: Alignment(0.875, 3),
                         child: FloatingActionButton(
                           backgroundColor: Colors.teal[900],
-                          onPressed: () {
+                          onPressed: () async { final new_content = await
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => notes_edit(
-                                          file: note_content,
-                                          index: index,
-                                        )));
+                                      file: value,
+                                      index: widget.index,
+                                    )));
+                          if (new_content != null) {
+                            setState(() {
+                              _keep.value = new_content;
+                            });
+                          }
                           },
                           child: Icon(CupertinoIcons.pencil),
                         ))
@@ -99,12 +118,3 @@ class NoGlowScrollBehavior extends ScrollBehavior {
   }
 }
 
-class Notechange extends ValueNotifier<Note> {
-  Notechange(Note value) : super(value);
-
-  void changed_content(String n_content, String n_title) {
-    value.content = n_content;
-    value.title = n_title;
-    notifyListeners();
-  }
-}

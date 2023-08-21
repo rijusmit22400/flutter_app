@@ -158,8 +158,7 @@ class _notes_editState extends State<notes_edit> {
                                   print("\n\n\n\n\n");
                                   _content_controller.clear();
                                   _title_controller.clear();
-                                  int count=0;
-                                  Navigator.popUntil(context,(route)=> count++ ==2);
+                                  Navigator.pop(context, note);
                                 },
                                 label: Text(
                                   "Edit",
